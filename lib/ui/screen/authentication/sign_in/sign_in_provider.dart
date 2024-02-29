@@ -49,14 +49,17 @@ class SignInProvider extends BaseViewModal {
 
       print("user is   ${customAuthResult.user}");
       if (customAuthResult.user != null) {
+
         print(
             "App user Id: ${_authService.appUser.appUserId} ${customAuthResult.user!.uid}");
-      }
+      
       print("Is first Login=> ${_authService.appUser.isFirstLogin}");
 
       appUser = _authService.appUser;
       Get.offAll(const SetLocation());
-    } else {
+    } 
+    
+    else {
       showSnackBar(
         context,
         customAuthResult.errorMessage!,
@@ -66,4 +69,5 @@ class SignInProvider extends BaseViewModal {
 
     setState(ViewState.idle);
   }
+}
 }

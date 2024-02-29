@@ -220,6 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(
                         height: 30,
                       ),
+
                       // CustomButton(
                       //   title: 'School Registration',
                       //   onTap: () {
