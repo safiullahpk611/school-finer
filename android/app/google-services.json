@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547234100495",
+    "project_id": "school-finder-d64cc",
+    "storage_bucket": "school-finder-d64cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547234100495:android:a6dc4d6810e9cd28623a7a",
+        "android_client_info": {
+          "package_name": "com.example.school_finder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuewXQAveQ4-IFFgLE34SBaeGvy88VCXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

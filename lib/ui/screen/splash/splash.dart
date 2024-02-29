@@ -4,39 +4,82 @@ import '../authentication/selection/selection_screen.dart';
 import '../authentication/signup/sign_up.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   @override
   void initState() {
-    print("init calling");
     super.initState();
-    splashScreenDelay();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    );
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_controller);
+    _controller.forward();
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SelectionScreen()),
+        );
+      }
+    });
   }
 
-  splashScreenDelay() async {
-    print("splash is calling");
-
-    await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => const SelectionScreen()));
-
-    // Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //  backgroundColor: const Color(0xff45416A),
-      body: Center(
-          child: Image.asset(
-        'assets/images/logo.png',
-        scale: 3,
-      )),
+      // backgroundColor: const Color(0xff45416A),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Image.asset(
+              'assets/images/logo.png',
+              scale: 4,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return SizedBox(
+                  height: 20,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        15), // Adjust the radius to round the corners
+                    child: LinearProgressIndicator(
+                      value: _animation.value,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
