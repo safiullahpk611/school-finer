@@ -74,12 +74,16 @@ class _PrincipalDataState extends State<PrincipalData> {
     );
   }
 
-  Widget _buildBody(StorePrincpalDataProvider model) {
+  Widget _buildBody(
+    StorePrincpalDataProvider model,
+  ) {
     switch (model.currentIndex) {
       case 0:
         return const Text("1");
       case 1:
-        return SchoolRegScreen();
+        return SchoolRegScreen(
+          principalId: widget.princpalId,
+        );
       case 2:
         return const Text("3");
 

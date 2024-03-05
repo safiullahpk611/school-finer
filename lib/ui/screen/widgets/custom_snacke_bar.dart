@@ -9,3 +9,12 @@ void showSnackBar(BuildContext context, String message, {int duration = 4000}) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
+
+class Screen1 extends StatelessWidget {
+  const Screen1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}

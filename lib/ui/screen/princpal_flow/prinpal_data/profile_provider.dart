@@ -23,10 +23,23 @@ class ProfileProvider extends BaseViewModal {
   final TextEditingController phoneNumberController = TextEditingController();
   var currentIndex = 0;
   var id = "";
+
   ProfileProvider(princpalId) {
     id = princpalId;
     checkPrincipalProfileData(princpalId);
   }
+  bool isVesiable = false;
+
+  showDetail() {
+    if (isVesiable == true) {
+      isVesiable = false;
+    } else {
+      isVesiable = true;
+    }
+
+    notifyListeners();
+  }
+
   checkPrincipalProfileData(String princpalId) async {
     setState(ViewState.busy);
     // princpalProfileModel = PrincpalProfileModel();

@@ -6,9 +6,12 @@ import 'Facilities_and_activities.dart';
 import 'acedmic_information.dart';
 import 'availability.dart';
 import 'basic_information.dart';
+import 'finincial_infiormation.dart';
+import 'scholl_reg_provider.dart';
 
 class SchoolRegScreen extends StatefulWidget {
-  const SchoolRegScreen({super.key});
+  final principalId;
+  const SchoolRegScreen({super.key, this.principalId});
 
   @override
   State<SchoolRegScreen> createState() => _SchoolRegScreenState();
@@ -17,7 +20,7 @@ class SchoolRegScreen extends StatefulWidget {
 class _SchoolRegScreenState extends State<SchoolRegScreen> {
   int activeStep = 2;
   // Initial step set to 5.
-  int upperBound = 4;
+  int upperBound = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class _SchoolRegScreenState extends State<SchoolRegScreen> {
                 Icon(Icons.supervised_user_circle),
                 Icon(Icons.flag),
                 Icon(Icons.access_alarm),
+                Icon(Icons.money),
                 Icon(Icons.safety_check),
                 Icon(Icons.face),
               ],
@@ -50,22 +54,28 @@ class _SchoolRegScreenState extends State<SchoolRegScreen> {
             ),
             Expanded(
                 child: activeStep == 0
-                    ? const BasicInformation(
-                        headerText: 'Step 1: Basic Information')
+                    ? BasicInformation(
+                        headerText: 'Step 1: Basic Information',
+                        principalId: widget.principalId)
                     : activeStep == 1
                         ? const AcademicInformation(
                             headerText: "Step 2: Academic Information")
                         : activeStep == 2
-                            ? const FacilitiesAndActivities(
-                                headerText: "Step 3: Facilities And Activities")
+                            ? FacilitiesAndActivities(
+                                headerText: "Step 3: Facilities And Activities",
+                                princpalId: widget.principalId,
+                              )
                             : activeStep == 3
-                                ? const FacilitiesAndActivities(
-                                    headerText:
-                                        "Step 4: Past Matriculation Results")
+                                ? const FinincialInformaton(
+                                    headerText: "STEP 4: Financial Information")
                                 : activeStep == 4
-                                    ? const Availability(
-                                        headerText: "Step 5: Availability")
-                                    : Text("$activeStep")),
+                                    ? const FacilitiesAndActivities(
+                                        headerText:
+                                            "Step 5: Past Matriculation Results")
+                                    : activeStep == 5
+                                        ? const Availability(
+                                            headerText: "Step 6: Availability")
+                                        : Text("$activeStep")),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -4,18 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/color.dart';
 import '../../../authentication/signup/sign_up.dart';
-import '../../../authentication/signup/sign_up_provider.dart';
 import 'scholl_reg_provider.dart';
 
-class Availability extends StatefulWidget {
+class FinincialInformaton extends StatelessWidget {
   final headerText;
-  const Availability({super.key, this.headerText});
+  const FinincialInformaton({super.key, this.headerText});
 
-  @override
-  State<Availability> createState() => _AvailabilityState();
-}
-
-class _AvailabilityState extends State<Availability> {
   @override
   Widget build(BuildContext context) {
     return Consumer<SchoolRegProvider>(builder: (context, model, child) {
@@ -35,32 +29,31 @@ class _AvailabilityState extends State<Availability> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "${widget.headerText}",
+                      "$headerText",
                       style: GoogleFonts.unbounded(
                           textStyle: const TextStyle(fontSize: 22)),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
-                    DropdownButtonFormField<String>(
-                      value: model.setTimeSlot,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          model.setTimeSlot = newValue!;
-                        });
+                    BorderTextField(
+                      label: const Text("Funds Criteria"),
+                      hintText: ' (e.g., Zakat, Optional)',
+                      onChanged: (val) {
+                        model.schoolRegModel.fundsCriteria = val;
                       },
-                      items: <String>[
-                        '04/5/2024 on 10:50 am', // Add a default value or prompt
-                        '03/5/2024 on 03:50 pm',
-                        '06/5/2024 on 05:50 pm',
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      ontap: () {},
                     ),
                     const SizedBox(height: 20),
+                    BorderTextField(
+                      label: const Text("Scholarship (Optional)"),
+                      onChanged: (val) {
+                        model.schoolRegModel.scholarshipCriteria = val;
+                      },
+                      //   hintText: 'Sports, Art and Craft',
+                      // controller:
+                      //     model.schoolNameController,
+                    ),
                   ]),
             ),
           ),

@@ -14,6 +14,7 @@ class StorePrincpalDataProvider extends BaseViewModal {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final result = PrincipalDataResult();
   var currentIndex = 3;
+  int setTimeSolt = 1;
   StorePrincpalDataProvider(princpalId) {
     checkPrincipalProfileData(princpalId);
   }

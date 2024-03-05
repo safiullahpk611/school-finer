@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:school_finder/core/model/appuser.dart';
+import 'package:school_finder/core/model/school_reg.dart';
 import 'package:school_finder/core/services/custom_auth_result.dart';
 
 import '../model/princpal_profile_mode.dart';
@@ -18,6 +19,19 @@ class DatabaseServices {
           .collection("AppUser")
           .doc(appUser.appUserId)
           .set(appUser.toJson());
+    } catch (e) {
+      print('Exception $e');
+    }
+  }
+/////////////////////////// reg school data //////////////////////////////////
+
+  registerSchool(SchoolRegModel appUser) {
+    try {
+      firebaseFireStore
+          .collection("schools")
+          .doc(appUser.princpalId)
+          .set(appUser.toJson());
+      print("data added");
     } catch (e) {
       print('Exception $e');
     }

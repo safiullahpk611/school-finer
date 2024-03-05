@@ -1,71 +1,102 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../core/color.dart';
 import '../../../authentication/signup/sign_up.dart';
+import 'scholl_reg_provider.dart';
 
 class FacilitiesAndActivities extends StatelessWidget {
+  final princpalId;
   final headerText;
-  const FacilitiesAndActivities({super.key, this.headerText});
+  const FacilitiesAndActivities({super.key, this.headerText, this.princpalId});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-      decoration: BoxDecoration(
-          color: const Color(0xffce805b).withOpacity(0.5),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Center(
-        child: Form(
-          //  key: model.formKey,
-          child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "$headerText",
-                    style: GoogleFonts.unbounded(
-                        textStyle: const TextStyle(fontSize: 22)),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  BorderTextField(
-                    label: const Text("Images of Marks Sheet *"),
-                    hintText: 'Minimum three student data',
-                    readOnly: true,
-                    ontap: () {},
-                  ),
-                  const SizedBox(height: 20),
-                  BorderTextField(
-                    label: const Text("Marks (Number form)"),
-                    // onChanged: (val) {
-                    //   model.princpalProfileModel
-                    //       .schoolName = val;
-                    // },
-                    //   hintText: 'Sports, Art and Craft',
-                    // controller:
-                    //     model.schoolNameController,
-                  ),
-                  const SizedBox(height: 20),
-                  BorderTextField(
-                    label: const Text("Guzzart Number (*)"),
+    return Consumer<SchoolRegProvider>(builder: (context, model, child) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+        decoration: BoxDecoration(
+            color: const Color(0xffce805b).withOpacity(0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: Center(
+          child: Form(
+            //  key: model.formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "$headerText",
+                      style: GoogleFonts.unbounded(
+                          textStyle: const TextStyle(fontSize: 22)),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount: model.imageFiles.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                              title: Image.file(
+                            File(
+                              model.imagePaths[index],
+                            ),
+                            height: 70,
+                          ));
+                        },
+                      ),
+                    ),
+                    BorderTextField(
+                      label: const Text("select Infrastructure images "),
+                      readOnly: true,
+                      ontap: () {
+                        print("object");
+                        model.pickImage();
+                        if (model.imagePaths.isEmpty) {
+                          model.textFieldController.text = 'No image selected';
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    BorderTextField(
+                      label: const Text("Doctor Facility (Optional)"),
+                      onChanged: (val) {
+                        model.schoolRegModel.doctorFacility = val;
+                      },
+                      //   hintText: 'Sports, Art and Craft',
+                      // controller:
+                      //     model.schoolNameController,
+                    ),
+                    const SizedBox(height: 20),
+                    BorderTextField(
+                      label: const Text("Transport Facility (Optional)"),
 
-                    // controller:
-                    //     model.schoolRegNoController,
-                    // onChanged: (val) {
-                    //   model.princpalProfileModel
-                    //       .schoolRegNo = val;
-                    // },
-                  ),
-                  const SizedBox(height: 20),
-                ]),
+                      // controller:
+                      //     model.schoolRegNoController,
+                      onChanged: (val) {
+                        model.schoolRegModel.transportFacility = val;
+                      },
+                    ),
+                    //   const SizedBox(height: 20),
+                    TextButton(
+                        onPressed: () {
+                          model.schoolRegModel.princpalId = princpalId;
+                          model.regSchool(model.schoolRegModel);
+                        },
+                        child: const Text("done"))
+                  ]),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
