@@ -57,22 +57,20 @@ class _SignInScreenState extends State<SignInScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // CustomButton(
                       //   title: 'Sign Up with Admin',
                       //   onTap: () {},
                       // ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+
                       Text(
                         "Log In Now",
                         style: GoogleFonts.unbounded().s(25).cl(Colors.black),
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 30,
                       ),
                       Image.asset(
                         'assets/images/school visit.jpeg',
@@ -159,7 +157,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ]),
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 20,
                       ),
                       // CustomButton(
                       //   title: 'Login with Guardian ',

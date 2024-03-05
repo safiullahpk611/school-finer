@@ -41,7 +41,9 @@ dependencies:
   provider: ^6.1.1
   get: ^4.6.6
   google_fonts: ^6.1.0
+  salomon_bottom_bar: ^3.3.2
   get_it: ^7.6.7
+  im_stepper: ^1.0.1+1
 
 dev_dependencies:
   flutter_test:

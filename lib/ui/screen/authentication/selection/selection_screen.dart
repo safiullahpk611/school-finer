@@ -37,7 +37,7 @@ class SelectionScreen extends StatelessWidget {
             const SizedBox(height: 40),
 
             Text("Hello, Welcome !",
-                style: GoogleFonts.unbounded().s(32).cl(Colors.black).w(6)),
+                style: GoogleFonts.unbounded().s(28).cl(Colors.black).w(6)),
             const SizedBox(height: 20),
             Text(
               "To SchoolFinder Top platform for finding Schools",

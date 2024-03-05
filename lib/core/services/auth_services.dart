@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:school_finder/core/model/appuser.dart';
@@ -38,18 +40,19 @@ class AuthServices {
       final credential = await authInstant.createUserWithEmailAndPassword(
           email: appUser.userEmail!, password: appUser.password!);
       if (credential.user != null) {
+        customAuthResult.user = credential.user;
         print('================>>> User registered');
         this.appUser = appUser;
         this.appUser.appUserId = credential.user!.uid;
         isLogin = true;
         print("SignUpUserId=> ${this.appUser.appUserId}");
-        await credential.user!.sendEmailVerification();
+
         await databaseServices.registerUser(appUser);
 
         this.appUser = await databaseServices.getUser(credential.user!.uid);
 
         print(" Hello ========>>> ${appUser.userName}");
-        customAuthResult.user = credential.user;
+
         // ScaffoldMessenger.of(context).showSnackBar(
         //   const SnackBar(
         //     content: Text(
@@ -78,6 +81,7 @@ class AuthServices {
         password: appUser.password!,
       );
       print("===========>>> User logined Successfully");
+
       if (credentials.user != null) {
         customAuthResult.user = credentials.user;
         this.appUser = appUser;
@@ -88,6 +92,10 @@ class AuthServices {
         /// Get User ===========================>>>>
         ///
         this.appUser = await databaseServices.getUser(credentials.user!.uid);
+
+        // customAuthResult.appUser?.isGurdian = mayApp.isGurdian ?? false;
+
+        print("before error 4444444444444444444444444444");
 
         //vehicleDetailModel = await databaseServices.getVehicleDetail(credentials.user!.uid);
       }

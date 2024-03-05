@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppUser extends ChangeNotifier {
+class AppUser {
   String? appUserId;
   String? userName;
   String? lastName;

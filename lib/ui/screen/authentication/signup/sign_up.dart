@@ -248,13 +248,19 @@ class BorderTextField extends StatelessWidget {
   final autofillHints;
   final textInputAction;
   final isVesiable;
+  final label;
+  final ontap;
+  final readOnly;
 
   TextInputType? keyBoardType;
   FocusNode? focusNode;
   Function(String)? onFieldSubmitted;
 
   BorderTextField({
+    this.ontap,
     super.key,
+    this.readOnly = false,
+    this.label,
     this.onChanged,
     this.isVesiable = false,
     this.controller,
@@ -273,6 +279,8 @@ class BorderTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
+      onTap: ontap,
       obscureText: isVesiable,
       validator: validator,
       controller: controller,
@@ -280,10 +288,11 @@ class BorderTextField extends StatelessWidget {
       // autocorrect: true,
       decoration: InputDecoration(
         hintText: hintText,
+        label: label,
         contentPadding: const EdgeInsets.all(15),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          borderSide: BorderSide(width: 2),
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+          borderSide: BorderSide(width: 2, color: logoColor),
         ),
         suffixIcon: suffixIcon,
         // prefixIcon: Icon(

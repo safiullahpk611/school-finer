@@ -4,17 +4,19 @@ import 'package:school_finder/core/enums/view_state.dart';
 import 'package:school_finder/core/model/appuser.dart';
 import 'package:school_finder/core/services/auth_services.dart';
 import 'package:school_finder/core/services/custom_auth_result.dart';
+import 'package:school_finder/core/services/database_services.dart';
 import 'package:school_finder/ui/screen/set_locaton/set_location.dart';
 import 'package:school_finder/ui/screen/widgets/custom_page_route.dart';
 import 'package:school_finder/ui/screen/widgets/custom_snacke_bar.dart';
 
 import '../../../../core/locator.dart';
 import '../../../../core/model/base_view_model.dart';
+import '../../princpal_flow/prinpal_data/store_princpal_data.dart';
 
 class SignUpProvider extends BaseViewModal {
   bool isVisiblePassword = false;
   final _authServices = locator<AuthServices>();
-
+  final databaseServices = DatabaseServices();
   CustomAuthResult customAuthResult = CustomAuthResult();
   AppUser appUser = AppUser();
   final formKey = GlobalKey<FormState>();
@@ -58,18 +60,33 @@ class SignUpProvider extends BaseViewModal {
       customAuthResult = await _authServices.signUpUser(appUser, context);
       setState(ViewState.idle);
       if (customAuthResult.user != null) {
-        print("SignUpUserId=> ${_authServices.appUser.appUserId}");
+        AppUser mayApp =
+            await databaseServices.getUser(customAuthResult.user!.uid);
+        if (mayApp.isAdmin == true && selectedRole == 'As admin') {
+          print("as admin is calling");
+          //   appUser = _authService.appUser;
+          Get.offAll(const SetLocation());
+          return;
+        } else if (mayApp.isGurdian == true && selectedRole == 'Gurdain') {
+          print("as Gurdain is calling");
 
-        Get.offAll(const SetLocation());
+          Get.offAll(const SetLocation());
+          return;
+        } else if (mayApp.princpal == true && selectedRole == 'Principal') {
+          print(
+              "as Principal is calling  ${customAuthResult.user!.uid.toString()}");
 
-        // Navigator.pushAndRemoveUntil(
-        //   context,
-        //   CustomPageRoute(
-        //       child: isAdmin == true
-        //           ? AdminPanelBottomNavigationBar()
-        //           : UserFormFillScreen()),
-        //   (Route route) => false,
-        // );
+          Get.offAll(PrincipalData(
+            princpalId: customAuthResult.user!.uid.toString(),
+          ));
+          return;
+        } else {
+          showSnackBar(
+            context,
+            'Check Your credentials',
+            duration: 5000,
+          );
+        }
       } else {
         showSnackBar(context, customAuthResult.errorMessage!);
       }
