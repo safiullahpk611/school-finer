@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_finder/core/configs/app_typography_ext.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:school_finder/ui/screen/authentication/selection/role_selction.dart';
 import '../../../../core/color.dart';
 import '../sign_in/sign_in_screen.dart';
@@ -21,8 +21,7 @@ class SelectionScreen extends StatelessWidget {
         // backgroundColor: logoColor.withOpacity(0.8),
         elevation: 0,
         centerTitle: true,
-        title: Text("School Finder",
-            style: GoogleFonts.unbounded().s(20).cl(Colors.black)),
+        title: Text("School Finder", style: TextStyle().s(20).cl(Colors.black)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -37,11 +36,11 @@ class SelectionScreen extends StatelessWidget {
             const SizedBox(height: 40),
 
             Text("Hello, Welcome !",
-                style: GoogleFonts.unbounded().s(28).cl(Colors.black).w(6)),
+                style: TextStyle().s(28).cl(Colors.black).w(6)),
             const SizedBox(height: 20),
             Text(
               "To SchoolFinder Top platform for finding Schools",
-              style: GoogleFonts.unbounded().s(18).cl(Colors.black).w(4),
+              style: TextStyle().s(18).cl(Colors.black).w(4),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
@@ -95,7 +94,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
-            style: GoogleFonts.unbounded().s(18).cl(primaryColor),
+            style: TextStyle().s(18).cl(primaryColor),
           ),
         ),
       ),

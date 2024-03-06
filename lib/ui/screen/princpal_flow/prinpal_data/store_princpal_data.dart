@@ -79,13 +79,13 @@ class _PrincipalDataState extends State<PrincipalData> {
   ) {
     switch (model.currentIndex) {
       case 0:
-        return const Text("1");
+        return const Center(child: Text("Comming soon"));
       case 1:
         return SchoolRegScreen(
           principalId: widget.princpalId,
         );
       case 2:
-        return const Text("3");
+        return const Center(child: Text("Comming soon"));
 
       case 3:
         return PrincipalProfile(

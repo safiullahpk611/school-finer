@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../../../core/color.dart';
@@ -30,8 +30,7 @@ class FinincialInformaton extends StatelessWidget {
                   children: [
                     Text(
                       "$headerText",
-                      style: GoogleFonts.unbounded(
-                          textStyle: const TextStyle(fontSize: 22)),
+                      style: const TextStyle(fontSize: 22),
                     ),
                     const SizedBox(
                       height: 30,

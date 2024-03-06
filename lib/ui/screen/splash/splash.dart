@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../authentication/selection/selection_screen.dart';
@@ -17,7 +18,19 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+    getCurrentUser();
     super.initState();
+  }
+
+  final authInstant = FirebaseAuth.instance;
+
+  User? user;
+  getCurrentUser() async {
+    user = authInstant.currentUser;
+    splashDelay();
+  }
+
+  splashDelay() {
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),

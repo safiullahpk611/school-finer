@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../../../core/color.dart';
@@ -23,79 +23,68 @@ class BasicInformation extends StatelessWidget {
             color: const Color(0xffce805b).withOpacity(0.5),
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
-          child: Form(
-            //  key: model.formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "$headerText",
-                      style: GoogleFonts.unbounded(
-                          textStyle: const TextStyle(fontSize: 22)),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    BorderTextField(
-                      label: const Text("School Name *"),
-                      onChanged: (val) {
-                        model.schoolRegModel.schoolName = val;
-                      },
+          child: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "$headerText",
+                    style: const TextStyle(fontSize: 22),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  BorderTextField(
+                    label: const Text("School Name *"),
+                    onChanged: (val) {
+                      model.schoolRegModel.schoolName = val;
+                    },
 
-                      // controller:
-                      //     model.schoolNameController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter school name';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    BorderTextField(
-                      label: const Text("School Address *"),
+                    // controller:
+                    //     model.schoolNameController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter school name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  BorderTextField(
+                    label: const Text("School Address *"),
 
-                      // controller:
-                      //     model.schoolRegNoController,
-                      onChanged: (val) {
-                        model.schoolRegModel.schoolAddress = val;
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter school school Address';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    BorderTextField(
-                      label: const Text("Religion Specificity  *"),
+                    // controller:
+                    //     model.schoolRegNoController,
+                    onChanged: (val) {
+                      model.schoolRegModel.schoolAddress = val;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter school  Address';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  BorderTextField(
+                    label: const Text("Religion Specificity  *"),
 
-                      hintText: 'e.g., Christian, Islamic',
-                      // controller:
-                      //     model.principalCNICController,
-                      onChanged: (val) {
-                        model.schoolRegModel.religionSpecificity = val;
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter religionSpecificity';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    InkWell(
-                        onTap: () {
-                          model.schoolRegModel.princpalId = principalId;
-                          model.regSchool(model.schoolRegModel);
-                        },
-                        child: const Text("save")),
-                    const SizedBox(height: 20),
-                  ]),
-            ),
+                    hintText: 'e.g., Christian, Islamic',
+                    // controller:
+                    //     model.principalCNICController,
+                    onChanged: (val) {
+                      model.schoolRegModel.religionSpecificity = val;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter religionSpecificity';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ]),
           ),
         ),
       );

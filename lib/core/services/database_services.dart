@@ -77,7 +77,7 @@ class DatabaseServices {
         print("data already existmmmmmmmmmmmmmmmmmmmmm  ${snapshot.data()}");
         // Token already exists in Firestore
         principalDataResult.dataAded = true;
-        principalDataResult.meessage = "Token already exists";
+        principalDataResult.meessage = "Data already exists";
         principalDataResult.princpalProfileModel =
             PrincpalProfileModel.fromJson(
                 snapshot.data()!, princpalProfileModel.appUserId);
@@ -96,7 +96,7 @@ class DatabaseServices {
             .doc(princpalProfileModel.appUserId)
             .set(princpalProfileModel.toJson());
         principalDataResult.dataAded = false;
-        principalDataResult.meessage = "Token stored successfully";
+        principalDataResult.meessage = "Data stored successfully";
         principalDataResult.princpalProfileModel =
             await getPrincpalProfile(princpalProfileModel.appUserId);
       }

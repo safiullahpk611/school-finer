@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:school_finder/core/color.dart';
+import 'package:school_finder/ui/screen/authentication/selection/selection_screen.dart';
 import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/profile_provider.dart';
 
 import '../../../../core/enums/view_state.dart';
@@ -37,6 +38,13 @@ class PrincipalProfile extends StatelessWidget {
                           child: Column(
                             children: [
                               model.princpalProfileModel.appUserId == null
+                                  ? const SizedBox(
+                                      height: 100,
+                                    )
+                                  : const SizedBox(
+                                      height: 10,
+                                    ),
+                              model.princpalProfileModel.appUserId == null
                                   ? Container(
                                       width: double.infinity,
                                       padding: const EdgeInsets.symmetric(
@@ -49,8 +57,18 @@ class PrincipalProfile extends StatelessWidget {
                                       child: Form(
                                         key: model.formKey,
                                         child: Column(
-                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
+                                              const Text(
+                                                "Princpal Profile Detail",
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
                                               BorderTextField(
                                                 hintText: 'Principal Name',
                                                 onChanged: (val) {
@@ -134,54 +152,56 @@ class PrincipalProfile extends StatelessWidget {
                                               const SizedBox(
                                                 height: 20,
                                               ),
+                                              CustomButton(
+                                                  onTap: () {
+                                                    model.storePrincpalProfileData(
+                                                        model
+                                                            .princpalProfileModel,
+                                                        context);
+                                                  },
+                                                  title: "Add Profile")
                                             ]),
                                       ),
                                     )
-                                  : model.isVesiable
-                                      ? ElevatedButton(
-                                          onPressed: () {},
-                                          child: const Text(""))
-                                      : Column(
-                                          children: [
-                                            ListTile(
-                                              title:
-                                                  const Text('Principal Name'),
-                                              subtitle: Text(model
-                                                      .princpalProfileModel
-                                                      .principalName ??
+                                  : Column(
+                                      children: [
+                                        ListTile(
+                                          title: const Text('Principal Name'),
+                                          subtitle: Text(model
+                                                  .princpalProfileModel
+                                                  .principalName ??
+                                              ''),
+                                        ),
+                                        ListTile(
+                                          title: const Text('CNIC'),
+                                          subtitle: Text(
+                                              model.princpalProfileModel.cnic ??
                                                   ''),
-                                            ),
-                                            ListTile(
-                                              title: const Text('CNIC'),
-                                              subtitle: Text(model
-                                                      .princpalProfileModel
-                                                      .cnic ??
-                                                  ''),
-                                            ),
-                                            ListTile(
-                                              title: const Text('Phone Number'),
-                                              subtitle: Text(model
-                                                      .princpalProfileModel
-                                                      .phoneNumber ??
-                                                  ''),
-                                            ),
-                                            ListTile(
-                                              title: const Text('School Name'),
-                                              subtitle: Text(model
-                                                      .princpalProfileModel
-                                                      .schoolName ??
-                                                  ''),
-                                            ),
-                                            ListTile(
-                                              title: const Text(
-                                                  'School Registration No'),
-                                              subtitle: Text(model
-                                                      .princpalProfileModel
-                                                      .schoolRegNo ??
-                                                  ''),
-                                            ),
-                                          ],
-                                        )
+                                        ),
+                                        ListTile(
+                                          title: const Text('Phone Number'),
+                                          subtitle: Text(model
+                                                  .princpalProfileModel
+                                                  .phoneNumber ??
+                                              ''),
+                                        ),
+                                        ListTile(
+                                          title: const Text('School Name'),
+                                          subtitle: Text(model
+                                                  .princpalProfileModel
+                                                  .schoolName ??
+                                              ''),
+                                        ),
+                                        ListTile(
+                                          title: const Text(
+                                              'School Registration No'),
+                                          subtitle: Text(model
+                                                  .princpalProfileModel
+                                                  .schoolRegNo ??
+                                              ''),
+                                        ),
+                                      ],
+                                    )
 
                               // Add more ListTiles for other data as needed
                             ],

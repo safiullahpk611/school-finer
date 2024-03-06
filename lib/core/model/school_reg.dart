@@ -17,7 +17,7 @@ class SchoolRegModel {
   String? scholarshipCriteria;
 
   List<String>? pastMatriculationImages;
-  List<String>? pastMatriculationMarks;
+  List<int>? pastMatriculationMarks;
   String? schoolGuzzartCode;
   List<String>? availableTimeSlot;
 
@@ -73,7 +73,7 @@ class SchoolRegModel {
     pastMatriculationImages:
     List<String>.from(json['pastMatriculationImages']);
     pastMatriculationMarks:
-    List<String>.from(json['pastMatriculationMarks']);
+    List<int>.from(json['pastMatriculationMarks']);
     schoolGuzzartCode:
     json['schoolGuzzartCode'];
     availableTimeSlot:

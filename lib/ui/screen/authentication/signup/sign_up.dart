@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:school_finder/core/color.dart';
@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           backgroundColor: logoColor,
           centerTitle: true,
           title: Text("School finder",
-              style: GoogleFonts.unbounded().s(18).cl(Colors.black)),
+              style: const TextStyle().s(18).cl(Colors.black)),
           leading: InkWell(
               onTap: () {
                 Get.back();
@@ -63,7 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Text(
                         "Create Account Now",
-                        style: GoogleFonts.unbounded().s(18).cl(Colors.black),
+                        style: const TextStyle().s(18).cl(Colors.black),
                       ),
                       const SizedBox(
                         height: 30,
@@ -78,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 const BorderRadius.all(Radius.circular(10))),
                         child: Column(children: [
                           BorderTextField(
-                            hintText: 'Full Name',
+                            hintText: 'First Name',
                             onChanged: (val) {
                               model.appUser.userName = val;
                             },

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:school_finder/core/enums/view_state.dart';
 import 'package:school_finder/core/model/base_view_model.dart';
 import 'package:school_finder/core/model/school_reg.dart';
+import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/school_reg/availability.dart';
 
 import '../../../../../core/services/database_services.dart';
 
@@ -15,9 +16,15 @@ class SchoolRegProvider extends BaseViewModal {
 
   final List<File> imageFiles = [];
   List<String> imagePaths = [];
+  final List<File> pastMatriculationImages = [];
+  List<String> pastMatriculationImagesPath = [];
   final picker = ImagePicker();
   SchoolRegModel schoolRegModel = SchoolRegModel();
   TextEditingController textFieldController = TextEditingController();
+  TextEditingController pastMatriculationfield = TextEditingController();
+  TextEditingController std1 = TextEditingController();
+  TextEditingController std2 = TextEditingController();
+  TextEditingController std3 = TextEditingController();
   ///////////////////////////////inmage picker from gallery ////////////////////////////////
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -55,7 +62,7 @@ class SchoolRegProvider extends BaseViewModal {
   final databaseServices = DatabaseServices();
   Future<void> regSchool(SchoolRegModel schoolRegModel) async {
     setState(ViewState.busy);
-    schoolRegModel.schoolImagesUrl = await uploadImagesToFirebase();
+    schoolRegModel.pastMatriculationImages = await uploadImagesToFirebase();
 
     try {
       await databaseServices.registerSchool(schoolRegModel);
@@ -69,4 +76,42 @@ class SchoolRegProvider extends BaseViewModal {
     textFieldController.dispose();
     super.dispose();
   }
+
+  Future pickImageMatriculation() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      pastMatriculationImages.add(File(pickedFile.path));
+      pastMatriculationImagesPath.add(pickedFile.path);
+    } else {
+      print('No image selected.');
+    }
+    notifyListeners();
+  }
+
+  Future<List<String>> uploadMatriculation() async {
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    List<String> imageUrls = [];
+
+    try {
+      for (int i = 0; i < imageFiles.length; i++) {
+        Reference ref = storage.ref().child('images/image$i.jpg');
+        await ref.putFile(imageFiles[i]);
+        String imageUrl = await ref.getDownloadURL();
+        imageUrls.add(imageUrl);
+      }
+      print('Images uploaded successfully');
+      return imageUrls;
+    } catch (e) {
+      print('Error uploading images: $e');
+      return [];
+    }
+  }
+
+  final basicInfomationKey = GlobalKey<FormState>();
+  final acadmickey = GlobalKey<FormState>();
+  final facilitykey = GlobalKey<FormState>();
+  final financialkey = GlobalKey<FormState>();
+  final pastmatriculationkey = GlobalKey<FormState>();
+  final availabilitykey = GlobalKey<FormState>();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
+import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/school_reg/past_matriculation_results.dart';
 
 import '../../../../../core/color.dart';
 import 'Facilities_and_activities.dart';
@@ -18,7 +19,7 @@ class SchoolRegScreen extends StatefulWidget {
 }
 
 class _SchoolRegScreenState extends State<SchoolRegScreen> {
-  int activeStep = 2;
+  int activeStep = 0;
   // Initial step set to 5.
   int upperBound = 5;
 
@@ -35,11 +36,11 @@ class _SchoolRegScreenState extends State<SchoolRegScreen> {
 
               icons: const [
                 Icon(Icons.supervised_user_circle),
-                Icon(Icons.flag),
-                Icon(Icons.access_alarm),
+                Icon(Icons.school),
+                Icon(Icons.local_activity),
                 Icon(Icons.money),
-                Icon(Icons.safety_check),
-                Icon(Icons.face),
+                Icon(Icons.track_changes),
+                Icon(Icons.calendar_month),
               ],
 
               // activeStep property set to activeStep variable defined above.
@@ -69,12 +70,14 @@ class _SchoolRegScreenState extends State<SchoolRegScreen> {
                                 ? const FinincialInformaton(
                                     headerText: "STEP 4: Financial Information")
                                 : activeStep == 4
-                                    ? const FacilitiesAndActivities(
+                                    ? const PastMatriculationResults(
                                         headerText:
                                             "Step 5: Past Matriculation Results")
                                     : activeStep == 5
-                                        ? const Availability(
-                                            headerText: "Step 6: Availability")
+                                        ? Availability(
+                                            headerText: "Step 6: Availability",
+                                            princpalId: widget.principalId,
+                                          )
                                         : Text("$activeStep")),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

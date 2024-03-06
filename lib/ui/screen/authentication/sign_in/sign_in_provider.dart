@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_finder/core/enums/view_state.dart';
+import 'package:school_finder/ui/screen/gurdian_flow/google_mao_controller.dart';
 
 import '../../../../core/locator.dart';
 import '../../../../core/model/appuser.dart';
@@ -10,6 +11,7 @@ import '../../../../core/model/base_view_model.dart';
 import '../../../../core/services/auth_services.dart';
 import '../../../../core/services/custom_auth_result.dart';
 import '../../../../core/services/database_services.dart';
+import '../../gurdian_flow/googleMaps_screen.dart';
 import '../../princpal_flow/prinpal_data/store_princpal_data.dart';
 import '../../set_locaton/set_location.dart';
 import '../../widgets/custom_snacke_bar.dart';
@@ -60,7 +62,14 @@ class SignInProvider extends BaseViewModal {
         } else if (mayApp.isGurdian == true && selectedRole == 'As Gurdain') {
           print("as Gurdain is calling");
           appUser = _authService.appUser;
-          Get.offAll(const SetLocation());
+
+          await Get.to(
+              () => GoogleMapScreen(userID: customAuthResult.user!.uid));
+          var loc = YourController.addressValue.value;
+          print("Adress??????${YourController.addressValue.value.toString()}");
+          notifyListeners();
+          //   Get.offAll(const SetLocation())
+          // ;
           return;
         } else if (mayApp.princpal == true && selectedRole == 'AS Principal') {
           print("as Principal is calling");

@@ -28,17 +28,17 @@ class ProfileProvider extends BaseViewModal {
     id = princpalId;
     checkPrincipalProfileData(princpalId);
   }
-  bool isVesiable = false;
+  // bool isVesiable = false;
 
-  showDetail() {
-    if (isVesiable == true) {
-      isVesiable = false;
-    } else {
-      isVesiable = true;
-    }
+  // showDetail() {
+  //   if (isVesiable == true) {
+  //     isVesiable = false;
+  //   } else {
+  //     isVesiable = true;
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   checkPrincipalProfileData(String princpalId) async {
     setState(ViewState.busy);
@@ -52,28 +52,31 @@ class ProfileProvider extends BaseViewModal {
   ///////////////////////set princpal profile data /////////////////////////////////////////////////////////////////////////
   storePrincpalProfileData(
       PrincpalProfileModel princpalProfileModel, BuildContext context) async {
-    setState(ViewState.busy);
+    if (formKey.currentState!.validate()) {
+      setState(ViewState.busy);
 
-    princpalProfileModel.appUserId = id;
-    print("id in storeprincpal is ${princpalProfileModel.appUserId}");
-    PrincipalDataResult result =
-        await databaseServices.storePricpalProfileData(princpalProfileModel);
-    if (result.dataAded = true) {
-      print("result is ${result.dataAded}");
-      showSnackBar(
-        context,
-        '${result.meessage}',
-        duration: 5000,
-      );
-    } else {
-      princpalProfileModel = result.princpalProfileModel!;
-      notifyListeners();
-      showSnackBar(
-        context,
-        '${result.meessage}',
-        duration: 5000,
-      );
+      princpalProfileModel.appUserId = id;
+      print("id in storeprincpal is ${princpalProfileModel.appUserId}");
+      PrincipalDataResult result =
+          await databaseServices.storePricpalProfileData(princpalProfileModel);
+      if (result.dataAded = true) {
+        print("result is ${result.dataAded}");
+        showSnackBar(
+          context,
+          '${result.meessage}',
+          duration: 5000,
+        );
+      } else {
+        princpalProfileModel = result.princpalProfileModel!;
+        notifyListeners();
+        showSnackBar(
+          context,
+          '${result.meessage}',
+          duration: 5000,
+        );
+      }
     }
+
     setState(ViewState.idle);
   }
 }

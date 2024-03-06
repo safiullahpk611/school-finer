@@ -11,6 +11,8 @@ import 'package:school_finder/ui/screen/widgets/custom_snacke_bar.dart';
 
 import '../../../../core/locator.dart';
 import '../../../../core/model/base_view_model.dart';
+import '../../gurdian_flow/googleMaps_screen.dart';
+import '../../gurdian_flow/google_mao_controller.dart';
 import '../../princpal_flow/prinpal_data/store_princpal_data.dart';
 
 class SignUpProvider extends BaseViewModal {
@@ -69,8 +71,13 @@ class SignUpProvider extends BaseViewModal {
           return;
         } else if (mayApp.isGurdian == true && selectedRole == 'Gurdain') {
           print("as Gurdain is calling");
+          await Get.to(
+              () => GoogleMapScreen(userID: customAuthResult.user!.uid));
+          var loc = YourController.addressValue.value;
+          print("Adress??????${YourController.addressValue.value.toString()}");
+          notifyListeners();
 
-          Get.offAll(const SetLocation());
+          //   Get.offAll(const SetLocation());
           return;
         } else if (mayApp.princpal == true && selectedRole == 'Principal') {
           print(

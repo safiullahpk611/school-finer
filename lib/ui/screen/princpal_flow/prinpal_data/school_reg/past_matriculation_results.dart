@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/school_reg/scholl_reg_provider.dart';
 
@@ -18,6 +20,8 @@ class PastMatriculationResults extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         decoration: BoxDecoration(
+            //color: Colors.red,
+
             color: const Color(0xffce805b).withOpacity(0.5),
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
@@ -30,73 +34,84 @@ class PastMatriculationResults extends StatelessWidget {
                   children: [
                     Text(
                       "$headerText",
-                      style: GoogleFonts.unbounded(
-                          textStyle: const TextStyle(fontSize: 22)),
+                      style: const TextStyle(fontSize: 22),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
+                    SizedBox(
+                      height: 120,
+                      child: ListView.builder(
+                        itemCount: model.pastMatriculationImages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                              title: Image.file(
+                            File(
+                              model.pastMatriculationImagesPath[index],
+                            ),
+                            height: 70,
+                          ));
+                        },
+                      ),
+                    ),
                     BorderTextField(
-                      label: const Text("Select Dmc *"),
+                      suffixIcon: const Icon(Icons.upload),
+                      label: const Text("Marks sheet of Top 3 Students"),
                       readOnly: true,
-                      ontap: () {},
+                      ontap: () {
+                        print("object");
+                        if (model.pastMatriculationImagesPath.length <= 3) {
+                          model.pickImageMatriculation();
+                        }
+
+                        if (model.pastMatriculationImagesPath.isEmpty) {
+                          model.pastMatriculationfield.text =
+                              'No image selected';
+                        }
+                      },
                     ),
                     const SizedBox(height: 20),
                     BorderTextField(
-                      label:
-                          const Text("Extracurricular Activities (optional)"),
+                      keyBoardType: TextInputType.number,
+                      label: const Text("Marks of 1st Division"),
                       // onChanged: (val) {
                       //   model.princpalProfileModel
                       //       .schoolName = val;
                       // },
-                      hintText: 'Sports, Art and Craft',
-                      // controller:
-                      //     model.schoolNameController,
+                      //  hintText: 'Sports, Art and Craft',
+                      controller: model.std1,
                     ),
                     const SizedBox(height: 20),
                     BorderTextField(
-                      label: const Text("Tuition Facilities (optional)"),
+                      keyBoardType: TextInputType.number,
+                      label: const Text("Marks of 2nd Division"),
+                      // onChanged: (val) {
+                      //   model.princpalProfileModel
+                      //       .schoolName = val;
+                      // },
+                      //  hintText: 'Sports, Art and Craft',
+                      controller: model.std2,
+                    ),
+                    const SizedBox(height: 20),
+                    BorderTextField(
+                      keyBoardType: TextInputType.number,
+                      label: const Text("Marks of 3rd Division"),
+                      // onChanged: (val) {
+                      //   model.princpalProfileModel
+                      //       .schoolName = val;
+                      // },
+                      //  hintText: 'Sports, Art and Craft',
+                      controller: model.std3,
+                    ),
+                    const SizedBox(height: 20),
+                    BorderTextField(
+                      label: const Text("School Guzzart Code "),
 
                       // controller:
                       //     model.schoolRegNoController,
-                      // onChanged: (val) {
-                      //   model.princpalProfileModel
-                      //       .schoolRegNo = val;
-                      // },
-                    ),
-                    const SizedBox(height: 20),
-                    BorderTextField(
-                      label: const Text("Doctor facility (optional)"),
-
-                      // controller:
-                      //     model.principalCNICController,
-                      // onChanged: (val) {
-                      //   model.princpalProfileModel.cnic =
-                      //       val;
-                      // },
-                    ),
-                    const SizedBox(height: 20),
-                    BorderTextField(
-                      label: const Text("Caretaker Facility (optional)"),
-
-                      // controller:
-                      //     model.principalCNICController,
-                      // onChanged: (val) {
-                      //   model.princpalProfileModel.cnic =
-                      //       val;
-                      // },
-                    ),
-                    const SizedBox(height: 20),
-                    BorderTextField(
-                      label:
-                          const Text(" Quran and Hifz Availability (optional)"),
-
-                      // controller:
-                      //     model.principalCNICController,
-                      // onChanged: (val) {
-                      //   model.princpalProfileModel.cnic =
-                      //       val;
-                      // },
+                      onChanged: (val) {
+                        model.schoolRegModel.schoolGuzzartCode = val;
+                      },
                     ),
                     const SizedBox(height: 20),
                   ]),

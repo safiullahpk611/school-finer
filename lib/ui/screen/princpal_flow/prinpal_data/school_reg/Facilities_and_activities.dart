@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../../../core/color.dart';
@@ -33,14 +33,13 @@ class FacilitiesAndActivities extends StatelessWidget {
                   children: [
                     Text(
                       "$headerText",
-                      style: GoogleFonts.unbounded(
-                          textStyle: const TextStyle(fontSize: 22)),
+                      style: const TextStyle(fontSize: 22),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
                     SizedBox(
-                      height: 200,
+                      height: 100,
                       child: ListView.builder(
                         itemCount: model.imageFiles.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -55,6 +54,7 @@ class FacilitiesAndActivities extends StatelessWidget {
                       ),
                     ),
                     BorderTextField(
+                      suffixIcon: const Icon(Icons.upload),
                       label: const Text("select Infrastructure images "),
                       readOnly: true,
                       ontap: () {
@@ -86,12 +86,12 @@ class FacilitiesAndActivities extends StatelessWidget {
                       },
                     ),
                     //   const SizedBox(height: 20),
-                    TextButton(
-                        onPressed: () {
-                          model.schoolRegModel.princpalId = princpalId;
-                          model.regSchool(model.schoolRegModel);
-                        },
-                        child: const Text("done"))
+                    // TextButton(
+                    //     onPressed: () {
+                    //       model.schoolRegModel.princpalId = princpalId;
+                    //       model.regSchool(model.schoolRegModel);
+                    //     },
+                    //     child: const Text("done"))
                   ]),
             ),
           ),

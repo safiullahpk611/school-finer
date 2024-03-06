@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:school_finder/core/color.dart';
@@ -43,7 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
           elevation: 0,
           centerTitle: true,
           title: Text("School finder",
-              style: GoogleFonts.unbounded().s(18).cl(Colors.black)),
+              style: const TextStyle().s(18).cl(Colors.black)),
         ),
         backgroundColor: const Color(0xfffcb575),
         body: ModalProgressHUD(
@@ -67,7 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                       Text(
                         "Log In Now",
-                        style: GoogleFonts.unbounded().s(25).cl(Colors.black),
+                        style: const TextStyle().s(25).cl(Colors.black),
                       ),
                       const SizedBox(
                         height: 30,
