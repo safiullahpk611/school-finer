@@ -57,7 +57,7 @@ class SignInProvider extends BaseViewModal {
         if (mayApp.isAdmin == true && selectedRole == 'As admin') {
           print("as admin is calling");
           //   appUser = _authService.appUser;
-          Get.offAll(const SetLocation());
+          Get.offAll(SetLocation());
           return;
         } else if (mayApp.isGurdian == true && selectedRole == 'As Gurdain') {
           print("as Gurdain is calling");

@@ -111,6 +111,11 @@ class DatabaseServices {
   ///////////////////////////////////check princpal profile ////////////////////////////////////
   ///
   Future<PrincpalProfileModel> getPrincpalProfile(princpalId) async {
+    if (princpalId == null || princpalId.isEmpty) {
+      // Handle the case where princpalId is null or empty
+      return PrincpalProfileModel();
+    }
+
     print("data already exist111111111111111111111111111  $princpalId");
     try {
       DocumentSnapshot snapshot = await firebaseFireStore
@@ -120,7 +125,7 @@ class DatabaseServices {
       print(
           "data already exist22222222222222222222222222222  ${snapshot.data()}");
       // Token already exists in Firestore
-      if (snapshot != null) {
+      if (snapshot.exists) {
         return PrincpalProfileModel.fromJson(snapshot.data()!, princpalId);
       } else {
         return PrincpalProfileModel();

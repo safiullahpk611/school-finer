@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
+import 'package:provider/provider.dart';
 import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/school_reg/past_matriculation_results.dart';
 
 import '../../../../../core/color.dart';
+import '../profile_provider.dart';
 import 'Facilities_and_activities.dart';
 import 'acedmic_information.dart';
 import 'availability.dart';
@@ -25,88 +27,125 @@ class _SchoolRegScreenState extends State<SchoolRegScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            IconStepper(
-              enableNextPreviousButtons: false,
+    return ChangeNotifierProvider(
+      create: (context) {
+        //   print("id in profile screen ${widget.principalId}");
+        return ProfileProvider(
+          widget.principalId,
+        );
+      },
+      child: Consumer<ProfileProvider>(builder: (context, model, child) {
+        return Scaffold(
+          backgroundColor: primaryColor,
+          body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: model.princpalProfileModel.appUserId != null
+                  ? Column(
+                      children: [
+                        IconStepper(
+                          scrollingDisabled: false,
 
-              icons: const [
-                Icon(Icons.supervised_user_circle),
-                Icon(Icons.school),
-                Icon(Icons.local_activity),
-                Icon(Icons.money),
-                Icon(Icons.track_changes),
-                Icon(Icons.calendar_month),
-              ],
+                          enableNextPreviousButtons: false,
+                          enableStepTapping: false,
+                          icons: const [
+                            Icon(Icons.supervised_user_circle),
+                            Icon(Icons.school),
+                            Icon(Icons.local_activity),
+                            Icon(Icons.money),
+                            Icon(Icons.track_changes),
+                            Icon(Icons.calendar_month),
+                          ],
 
-              // activeStep property set to activeStep variable defined above.
-              activeStep: activeStep,
+                          // activeStep property set to activeStep variable defined above.
+                          activeStep: activeStep,
 
-              // This ensures step-tapping updates the activeStep.
-              onStepReached: (index) {
-                setState(() {
-                  activeStep = index;
-                });
-              },
-            ),
-            Expanded(
-                child: activeStep == 0
-                    ? BasicInformation(
-                        headerText: 'Step 1: Basic Information',
-                        principalId: widget.principalId)
-                    : activeStep == 1
-                        ? const AcademicInformation(
-                            headerText: "Step 2: Academic Information")
-                        : activeStep == 2
-                            ? FacilitiesAndActivities(
-                                headerText: "Step 3: Facilities And Activities",
-                                princpalId: widget.principalId,
-                              )
-                            : activeStep == 3
-                                ? const FinincialInformaton(
-                                    headerText: "STEP 4: Financial Information")
-                                : activeStep == 4
-                                    ? const PastMatriculationResults(
+                          // This ensures step-tapping updates the activeStep.
+                          onStepReached: (index) {
+                            setState(() {
+                              activeStep = index;
+                            });
+                          },
+                        ),
+                        Expanded(
+                            child: activeStep == 0
+                                ? BasicInformation(
+                                    headerText: 'Step 1: Basic Information',
+                                    principalId: widget.principalId)
+                                : activeStep == 1
+                                    ? const AcademicInformation(
                                         headerText:
-                                            "Step 5: Past Matriculation Results")
-                                    : activeStep == 5
-                                        ? Availability(
-                                            headerText: "Step 6: Availability",
+                                            "Step 2: Academic Information")
+                                    : activeStep == 2
+                                        ? FacilitiesAndActivities(
+                                            headerText:
+                                                "Step 3: Facilities And Activities",
                                             princpalId: widget.principalId,
                                           )
-                                        : Text("$activeStep")),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                previousButton(),
-                nextButton(),
-              ],
-            ),
-          ],
-        ),
-      ),
+                                        : activeStep == 3
+                                            ? const FinincialInformaton(
+                                                headerText:
+                                                    "STEP 4: Financial Information")
+                                            : activeStep == 4
+                                                ? const PastMatriculationResults(
+                                                    headerText:
+                                                        "Step 5: Past Matriculation Results")
+                                                : activeStep == 5
+                                                    ? Availability(
+                                                        headerText:
+                                                            "Step 6: Availability",
+                                                        princpalId:
+                                                            widget.principalId,
+                                                      )
+                                                    : Text("$activeStep")),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            previousButton(),
+                            Consumer<SchoolRegProvider>(
+                                builder: (context, model, child) {
+                              return nextButton(activeStep == 0
+                                  ? model.basicInfomationKey
+                                  : activeStep == 1
+                                      ? model.acadmickey
+                                      : activeStep == 2
+                                          ? model.facilitykey
+                                          : activeStep == 3
+                                              ? model.financialkey
+                                              : activeStep == 4
+                                                  ? model.pastmatriculationkey
+                                                  : activeStep == 5
+                                                      ? model.availabilitykey
+                                                      : null);
+                            })
+                          ],
+                        ),
+                      ],
+                    )
+                  : const Center(
+                      child: Text("Enter Your Profile First"),
+                    )),
+        );
+      }),
     );
   }
 
   /// Returns the next button.
-  Widget nextButton() {
-    return ElevatedButton(
-      onPressed: () {
-        // Increment activeStep, when the next button is tapped. However, check for upper bound.
+  Widget nextButton(currentkey) {
+    return Consumer<SchoolRegProvider>(builder: (context, model, child) {
+      return ElevatedButton(
+        onPressed: () {
+          // Increment activeStep, when the next button is tapped. However, check for upper bound.
 
-        if (activeStep < upperBound) {
-          setState(() {
-            activeStep++;
-          });
-        }
-        // if(activeStep)
-      },
-      child: const Text('Next'),
-    );
+          if (activeStep < upperBound && currentkey.currentState!.validate()) {
+            setState(() {
+              activeStep++;
+            });
+          }
+          // if(activeStep)
+        },
+        child: const Text('Next'),
+      );
+    });
   }
 
   /// Returns the previous button.

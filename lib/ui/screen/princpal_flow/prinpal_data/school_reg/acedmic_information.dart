@@ -25,6 +25,7 @@ class AcademicInformation extends StatelessWidget {
             //  key: model.formKey,
             child: SingleChildScrollView(
               child: Form(
+                key: model.acadmickey,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,12 +47,11 @@ class AcademicInformation extends StatelessWidget {
                         },
                         //  controller:
                         //     model.principalNameController,
-                        // validator: (value) {
-                        //   if (value!.isEmpty) {
-                        //     return 'Please enter principal name';
-                        //   }}
-                        //   return null;
-                        // },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Teachers Qualification ((Primary) ';
+                          }
+                        },
                       ),
                       const SizedBox(height: 20),
                       BorderTextField(
@@ -65,7 +65,7 @@ class AcademicInformation extends StatelessWidget {
                         //     model.schoolNameController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter school name';
+                            return 'Enter Teachers Qualification (High)';
                           }
                           return null;
                         },

@@ -36,48 +36,52 @@ class _AvailabilityState extends State<Availability> {
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${widget.headerText}",
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    DropdownButtonFormField<String>(
-                      value: model.setTimeSlot,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          model.setTimeSlot = newValue!;
-                        });
-                      },
-                      items: <String>[
-                        '04/5/2024 on 10:50 am', // Add a default value or prompt
-                        '03/5/2024 on 03:50 pm',
-                        '06/5/2024 on 05:50 pm',
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 40),
-                    CustomButton(
-                      title: 'Reg School Now',
-                      onTap: () {
-                        print("pricpal id is ${widget.princpalId}");
-                        model.schoolRegModel.princpalId =
-                            widget.princpalId.toString();
-                        // model.schoolRegModel.availableTimeSlot!
-                        //     .add(model.setTimeSlot.toString());
-                        model.regSchool(model.schoolRegModel);
-                      },
-                    )
-                  ]),
+              child: Form(
+                key: model.availabilitykey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${widget.headerText}",
+                        style: const TextStyle(fontSize: 22),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: model.setTimeSlot,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            model.setTimeSlot = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          '04/5/2024 on 10:50 am', // Add a default value or prompt
+                          '03/5/2024 on 03:50 pm',
+                          '06/5/2024 on 05:50 pm',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 40),
+                      CustomButton(
+                        title: 'Reg School Now',
+                        onTap: () {
+                          print("pricpal id is ${widget.princpalId}");
+                          model.schoolRegModel.princpalId =
+                              widget.princpalId.toString();
+
+                          model.schoolRegModel.availableTimeSlot =
+                              model.setTimeSlot.toString();
+                          model.regSchool(model.schoolRegModel, context);
+                        },
+                      )
+                    ]),
+              ),
             ),
           ),
         ),

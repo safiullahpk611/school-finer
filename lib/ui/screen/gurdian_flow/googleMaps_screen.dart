@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:school_finder/core/model/appuser.dart';
 import 'package:school_finder/ui/screen/gurdian_flow/google_mao_controller.dart';
 
@@ -112,30 +113,55 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled');
-    }
+    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    // if (!serviceEnabled) {
+    //   return Future.error('Location services are disabled.');
+    // }
 
     permission = await Geolocator.checkPermission();
-
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-
       if (permission == LocationPermission.denied) {
-        return Future.error("Location permission denied");
+        return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied');
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    Position position = await Geolocator.getCurrentPosition();
-
-    return position;
+    return await Geolocator.getCurrentPosition();
   }
+
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled');
+  //   }
+
+  //   permission = await Geolocator.checkPermission();
+
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error("Location permission denied");
+  //     }
+  //   }
+
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error('Location permissions are permanently denied');
+  //   }
+
+  //   Position position = await Geolocator.getCurrentPosition();
+
+  //   return position;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +329,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                                 print('long  ${position.latitude}');
                                 Get.off(NearestSchool(
                                   lat: position.latitude,
-                                  longititude: position.longitude,
+                                  longitude: position.longitude,
                                 ));
                                 // Get.back();
                               });

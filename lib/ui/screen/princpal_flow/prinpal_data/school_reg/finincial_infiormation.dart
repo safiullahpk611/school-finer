@@ -21,9 +21,9 @@ class FinincialInformaton extends StatelessWidget {
             color: const Color(0xffce805b).withOpacity(0.5),
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
-          child: Form(
-            //  key: model.formKey,
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: Form(
+              key: model.financialkey,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

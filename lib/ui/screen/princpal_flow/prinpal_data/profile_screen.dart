@@ -21,7 +21,9 @@ class PrincipalProfile extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) {
         print("id in profile screen $principalId");
-        return ProfileProvider(principalId);
+        return ProfileProvider(
+          principalId,
+        );
       },
       child: Consumer<ProfileProvider>(
         builder: (context, model, child) {

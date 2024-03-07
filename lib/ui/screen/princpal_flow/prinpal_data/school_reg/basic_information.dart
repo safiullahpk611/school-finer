@@ -24,67 +24,70 @@ class BasicInformation extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "$headerText",
-                    style: const TextStyle(fontSize: 22),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  BorderTextField(
-                    label: const Text("School Name *"),
-                    onChanged: (val) {
-                      model.schoolRegModel.schoolName = val;
-                    },
+            child: Form(
+              key: model.basicInfomationKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "$headerText",
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    BorderTextField(
+                      label: const Text("School Name *"),
+                      onChanged: (val) {
+                        model.schoolRegModel.schoolName = val;
+                      },
 
-                    // controller:
-                    //     model.schoolNameController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter school name';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  BorderTextField(
-                    label: const Text("School Address *"),
+                      // controller:
+                      //     model.schoolNameController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter school name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    BorderTextField(
+                      label: const Text("School Address *"),
 
-                    // controller:
-                    //     model.schoolRegNoController,
-                    onChanged: (val) {
-                      model.schoolRegModel.schoolAddress = val;
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter school  Address';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  BorderTextField(
-                    label: const Text("Religion Specificity  *"),
+                      // controller:
+                      //     model.schoolRegNoController,
+                      onChanged: (val) {
+                        model.schoolRegModel.schoolAddress = val;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter school  Address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    BorderTextField(
+                      label: const Text("Religion Specificity  *"),
 
-                    hintText: 'e.g., Christian, Islamic',
-                    // controller:
-                    //     model.principalCNICController,
-                    onChanged: (val) {
-                      model.schoolRegModel.religionSpecificity = val;
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter religionSpecificity';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                ]),
+                      hintText: 'e.g., Christian, Islamic',
+                      // controller:
+                      //     model.principalCNICController,
+                      onChanged: (val) {
+                        model.schoolRegModel.religionSpecificity = val;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter religionSpecificity';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                  ]),
+            ),
           ),
         ),
       );

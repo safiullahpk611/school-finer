@@ -10,11 +10,12 @@ import 'package:school_finder/core/model/school_reg.dart';
 import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/school_reg/availability.dart';
 
 import '../../../../../core/services/database_services.dart';
+import '../../../widgets/custom_snacke_bar.dart';
 
 class SchoolRegProvider extends BaseViewModal {
   String setTimeSlot = '04/5/2024 on 10:50 am';
 
-  final List<File> imageFiles = [];
+  final List<File> schoolImagesFile = [];
   List<String> imagePaths = [];
   final List<File> pastMatriculationImages = [];
   List<String> pastMatriculationImagesPath = [];
@@ -25,12 +26,13 @@ class SchoolRegProvider extends BaseViewModal {
   TextEditingController std1 = TextEditingController();
   TextEditingController std2 = TextEditingController();
   TextEditingController std3 = TextEditingController();
+  TextEditingController timeslot = TextEditingController();
   ///////////////////////////////inmage picker from gallery ////////////////////////////////
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      imageFiles.add(File(pickedFile.path));
+      schoolImagesFile.add(File(pickedFile.path));
       imagePaths.add(pickedFile.path);
     } else {
       print('No image selected.');
@@ -44,9 +46,9 @@ class SchoolRegProvider extends BaseViewModal {
     List<String> imageUrls = [];
 
     try {
-      for (int i = 0; i < imageFiles.length; i++) {
+      for (int i = 0; i < schoolImagesFile.length; i++) {
         Reference ref = storage.ref().child('images/image$i.jpg');
-        await ref.putFile(imageFiles[i]);
+        await ref.putFile(schoolImagesFile[i]);
         String imageUrl = await ref.getDownloadURL();
         imageUrls.add(imageUrl);
       }
@@ -60,20 +62,36 @@ class SchoolRegProvider extends BaseViewModal {
 
   ///////////////////////////////////////// Reg school data//////////////////////////////////////
   final databaseServices = DatabaseServices();
-  Future<void> regSchool(SchoolRegModel schoolRegModel) async {
+  Future<void> regSchool(SchoolRegModel schModel, BuildContext context) async {
+    print("princpal id is ${schModel.princpalId}");
     setState(ViewState.busy);
-    schoolRegModel.pastMatriculationImages = await uploadImagesToFirebase();
+    if (pastMatriculationImages.isNotEmpty) {
+      schoolRegModel.pastMatriculationImages = await uploadMatriculation();
+    }
+    if (schoolImagesFile.isNotEmpty) {
+      schoolRegModel.schoolImagesUrl = await uploadImagesToFirebase();
+    }
 
     try {
       await databaseServices.registerSchool(schoolRegModel);
-    } catch (e) {}
-    setState(ViewState.busy);
+      showSnackBar(
+        context,
+        'Your School has been Registed',
+        duration: 5000,
+      );
+    } catch (e) {
+      print("erro while upoload school data");
+    }
+    setState(ViewState.idle);
     print("sucessfull added");
   }
 
   @override
   void dispose() {
     textFieldController.dispose();
+    std1.dispose();
+    std2.dispose();
+    std2.dispose();
     super.dispose();
   }
 
@@ -94,9 +112,9 @@ class SchoolRegProvider extends BaseViewModal {
     List<String> imageUrls = [];
 
     try {
-      for (int i = 0; i < imageFiles.length; i++) {
+      for (int i = 0; i < pastMatriculationImages.length; i++) {
         Reference ref = storage.ref().child('images/image$i.jpg');
-        await ref.putFile(imageFiles[i]);
+        await ref.putFile(pastMatriculationImages[i]);
         String imageUrl = await ref.getDownloadURL();
         imageUrls.add(imageUrl);
       }
