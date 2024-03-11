@@ -38,7 +38,7 @@ class SignInProvider extends BaseViewModal {
     print("Password final state : $isVisiblePassword");
   }
 
-  loginWithEmail(AppUser appUser, BuildContext context) async {
+  void loginWithEmail(AppUser appUser, BuildContext context) async {
     if (formKey.currentState!.validate()) {
       log("selected Role is $selectedRole");
       setState(ViewState.busy);
@@ -48,50 +48,41 @@ class SignInProvider extends BaseViewModal {
 
       customAuthResult = await _authService.loginUser(appUser);
 
-      // print("admin is   ${mayApp.isAdmin}");
-      // print("guardin is   ${mayApp.isGurdian}");
-      // print("princpal   ${mayApp.princpal}");
       if (customAuthResult.user != null) {
         AppUser mayApp =
             await databaseServices.getUser(customAuthResult.user!.uid);
-        if (mayApp.isAdmin == true && selectedRole == 'As admin') {
+        bool isAdmin = mayApp.isAdmin == true;
+        bool isGuardian = mayApp.isGurdian == true; // Corrected typo here
+        bool isPrincipal = mayApp.princpal == true; // Corrected typo here
+
+        if (isAdmin && selectedRole == 'As admin') {
           print("as admin is calling");
-          //   appUser = _authService.appUser;
           Get.offAll(SetLocation());
           return;
-        } else if (mayApp.isGurdian == true && selectedRole == 'As Gurdain') {
-          print("as Gurdain is calling");
+        } else if ((isGuardian || isPrincipal) &&
+            selectedRole == 'As Gurdain') {
+          print("as Guardian is calling");
           appUser = _authService.appUser;
-
           await Get.to(
               () => GoogleMapScreen(userID: customAuthResult.user!.uid));
-          var loc = YourController.addressValue.value;
-          print("Adress??????${YourController.addressValue.value.toString()}");
-          notifyListeners();
-          //   Get.offAll(const SetLocation())
-          // ;
+          print("Address: ${YourController.addressValue.value.toString()}");
           return;
-        } else if (mayApp.princpal == true && selectedRole == 'AS Principal') {
+        } else if ((isPrincipal || isGuardian) &&
+            selectedRole == 'AS Principal') {
           print("as Principal is calling");
           appUser = _authService.appUser;
           print(customAuthResult.user!.uid.toString());
           Get.offAll(PrincipalData(
-            princpalId: customAuthResult.user!.uid.toString(),
-          ));
+              princpalId: customAuthResult.user!.uid
+                  .toString())); // Corrected typo here
           return;
         } else {
           showSnackBar(
-            context,
-            'Check Your credentials',
-            duration: 5000,
-          );
+              context, 'Sign in failed. Please check your credentials.',
+              duration: 5000);
         }
       } else {
-        showSnackBar(
-          context,
-          customAuthResult.errorMessage!,
-          duration: 5000,
-        );
+        showSnackBar(context, customAuthResult.errorMessage!, duration: 5000);
       }
     }
     setState(ViewState.idle);

@@ -22,7 +22,7 @@ class PastMatriculationResults extends StatelessWidget {
         decoration: BoxDecoration(
             //color: Colors.red,
 
-            color: const Color(0xffce805b).withOpacity(0.5),
+            color: secondaryColor,
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
           child: Form(

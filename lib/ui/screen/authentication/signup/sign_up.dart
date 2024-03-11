@@ -133,8 +133,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               model.appUser.password = val;
                             },
                             validator: (value) {
-                              if (value.length < 6) {
-                                return "Password length must be 6 characters";
+                              if (value!.isEmpty) {
+                                return "ⓘ Please enter your password";
+                              } else if (value.length < 9) {
+                                return "ⓘ Password must be at least 8 characters eg: Asdf1234";
+                              } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+                                return "ⓘ Password must contain at least 1 number: eg Asdf1234";
+                              } else if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
+                                return "ⓘ Password must contain at least 1 letter eg: Asdf1234";
+                              } else {
+                                return null; // Validation passed
                               }
                             },
                             suffixIcon: InkWell(
@@ -164,9 +172,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                             controller: model.confirmPasswordController,
                             validator: (value) {
-                              if (model.confirmPasswordController.text !=
-                                  model.PasswordController.text) {
-                                return "Password does not matched";
+                              if (value!.isEmpty) {
+                                return "Please confirm your password";
+                              } else if (value !=
+                                  model.confirmPasswordController.text) {
+                                return "Passwords do not match";
+                              } else {
+                                return null; // Validation passed
                               }
                             },
                             suffixIcon: InkWell(
@@ -251,13 +263,14 @@ class BorderTextField extends StatelessWidget {
   final label;
   final ontap;
   final readOnly;
-
+  final inputParameter;
   TextInputType? keyBoardType;
   FocusNode? focusNode;
   Function(String)? onFieldSubmitted;
 
   BorderTextField({
     this.ontap,
+    this.inputParameter,
     super.key,
     this.readOnly = false,
     this.label,
@@ -285,7 +298,7 @@ class BorderTextField extends StatelessWidget {
       validator: validator,
       controller: controller,
       onChanged: onChanged,
-
+      inputFormatters: inputParameter,
       // autocorrect: true,
       decoration: InputDecoration(
           // filled: true,

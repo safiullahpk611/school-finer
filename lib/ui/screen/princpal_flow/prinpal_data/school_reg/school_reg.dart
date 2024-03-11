@@ -44,7 +44,7 @@ class _SchoolRegScreenState extends State<SchoolRegScreen> {
                       children: [
                         IconStepper(
                           scrollingDisabled: false,
-
+                          activeStepColor: logoColor,
                           enableNextPreviousButtons: false,
                           enableStepTapping: false,
                           icons: const [

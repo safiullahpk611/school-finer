@@ -21,7 +21,7 @@ class FacilitiesAndActivities extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         decoration: BoxDecoration(
-            color: const Color(0xffce805b).withOpacity(0.5),
+            color: secondaryColor,
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Center(
           child: Form(

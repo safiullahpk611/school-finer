@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:school_finder/core/color.dart';
 import 'package:school_finder/core/locator.dart';
 import 'package:school_finder/firebase_options.dart';
 import 'package:school_finder/ui/screen/splash/splash.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'School finder',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff45416A)),
+          colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
           useMaterial3: true,
         ),
         home: const SplashScreen(),

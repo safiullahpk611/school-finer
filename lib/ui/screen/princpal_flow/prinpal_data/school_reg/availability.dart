@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,14 @@ class _AvailabilityState extends State<Availability> {
     "4:00 PM - 5:00 PM",
     "5:00 PM - 6:00 PM"
   ];
-
+  Map<String, List<String>> availabilityData = {
+    'Monday': [],
+    'Tuesday': [],
+    'Wednesday': [],
+    'Thursday': [],
+    'Friday': [],
+  };
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   String selectedDay = "Monday";
   List<bool> isSelected = List.generate(9, (index) => false);
   @override
@@ -56,7 +64,7 @@ class _AvailabilityState extends State<Availability> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
           decoration: BoxDecoration(
-              color: const Color(0xffce805b).withOpacity(0.5),
+              color: secondaryColor,
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Center(
             child: SingleChildScrollView(
@@ -91,51 +99,43 @@ class _AvailabilityState extends State<Availability> {
                       //     );
                       //   }).toList(),
                       // ),
-                      DropdownButton<String>(
-                        value: selectedDay,
-                        onChanged: (newValue) {
-                          setState(() {});
-                          selectedDay = newValue!;
-                        },
-                        items:
-                            days.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        "Select Available Time Slots for $selectedDay",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 20),
-                      ToggleButtons(
-                        isSelected: isSelected,
-                        onPressed: (int index) {
-                          setState(() {
-                            isSelected[index] = !isSelected[index];
-                          });
-                        },
-                        children: timeSlots.map((time) {
-                          return Text(time);
-                        }).toList(),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          List<String> selectedSlots = [];
-                          for (int i = 0; i < isSelected.length; i++) {
-                            if (isSelected[i]) {
-                              selectedSlots.add(timeSlots[i]);
-                            }
-                          }
-                          print(
-                              "Selected time slots for $selectedDay: $selectedSlots");
-                        },
-                        child: const Text("Confirm"),
+                      SizedBox(
+                        height: 300,
+                        child: ListView(
+                          children: availabilityData.keys.map((day) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    day,
+                                    style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Column(
+                                    children:
+                                        availabilityData[day]!.map((timeSlot) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2.0),
+                                        child: Text(timeSlot),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _addTimeSlot(day);
+                                    },
+                                    child: const Text('Add Time Slot'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
                       const SizedBox(height: 40),
                       CustomButton(
@@ -148,6 +148,7 @@ class _AvailabilityState extends State<Availability> {
                           model.schoolRegModel.availableTimeSlot =
                               model.setTimeSlot.toString();
                           model.regSchool(model.schoolRegModel, context);
+                          _updateFirestoreData();
                         },
                       )
                     ]),
@@ -157,5 +158,51 @@ class _AvailabilityState extends State<Availability> {
         ),
       );
     });
+  }
+
+  void _addTimeSlot(String day) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        TextEditingController timeSlotController = TextEditingController();
+        return AlertDialog(
+          title: const Text('Add Time Slot'),
+          content: TextField(
+            controller: timeSlotController,
+            decoration: const InputDecoration(
+                labelText: 'Time Slot (e.g. 9:00 - 11:00 AM)'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  availabilityData[day]!.add(timeSlotController.text);
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _updateFirestoreData() async {
+    try {
+      await firestore
+          .collection('availability')
+          .doc('principal')
+          .set(availabilityData);
+      print('Data saved to Firestore');
+    } catch (e) {
+      print('Error saving data: $e');
+    }
   }
 }
