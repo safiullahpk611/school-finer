@@ -52,8 +52,7 @@ class PrincipalProfile extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 40),
                                       decoration: BoxDecoration(
-                                          color: const Color(0xffce805b)
-                                              .withOpacity(0.5),
+                                          color: secondaryColor,
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(10))),
                                       child: Form(
@@ -66,7 +65,9 @@ class PrincipalProfile extends StatelessWidget {
                                             children: [
                                               const Text(
                                                 "Princpal Profile Detail",
-                                                style: TextStyle(fontSize: 20),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white),
                                               ),
                                               const SizedBox(
                                                 height: 20,

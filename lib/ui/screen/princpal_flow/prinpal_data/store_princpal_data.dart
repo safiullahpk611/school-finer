@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:school_finder/core/color.dart';
+import 'package:school_finder/core/configs/app_typography_ext.dart';
 import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/profile_provider.dart';
 import 'package:school_finder/ui/screen/princpal_flow/prinpal_data/profile_screen.dart';
 
@@ -38,7 +39,8 @@ class _PrincipalDataState extends State<PrincipalData> {
             key: model.scaffoldKey,
             appBar: AppBar(
               backgroundColor: logoColor,
-              title: const Text('Principal Profile'),
+              title: Text('Principal Profile',
+                  style: const TextStyle().s(20).cl(primaryColor).w(6)),
             ),
             body: _buildBody(model),
             bottomNavigationBar: SalomonBottomBar(
@@ -47,25 +49,21 @@ class _PrincipalDataState extends State<PrincipalData> {
               onTap: (i) => setState(() => model.currentIndex = i),
               items: [
                 SalomonBottomBarItem(
-                  icon: const Icon(Icons.home),
-                  title: const Text("Home"),
-                  selectedColor: Colors.teal,
-                ),
+                    icon: const Icon(Icons.home),
+                    title: const Text("Home"),
+                    selectedColor: primaryColor),
                 SalomonBottomBarItem(
-                  icon: const Icon(Icons.school_rounded),
-                  title: const Text("Add School"),
-                  selectedColor: Colors.teal,
-                ),
+                    icon: const Icon(Icons.school_rounded),
+                    title: const Text("Add School"),
+                    selectedColor: primaryColor),
                 SalomonBottomBarItem(
-                  icon: const Icon(Icons.chat),
-                  title: const Text("Chat"),
-                  selectedColor: Colors.teal,
-                ),
+                    icon: const Icon(Icons.chat),
+                    title: const Text("Chat"),
+                    selectedColor: primaryColor),
                 SalomonBottomBarItem(
-                  icon: const Icon(Icons.person),
-                  title: const Text("Profile"),
-                  selectedColor: Colors.teal,
-                ),
+                    icon: const Icon(Icons.person),
+                    title: const Text("Profile"),
+                    selectedColor: primaryColor),
               ],
             ),
           );

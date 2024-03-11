@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           backgroundColor: logoColor,
           centerTitle: true,
           title: Text("School finder",
-              style: const TextStyle().s(18).cl(Colors.black)),
+              style: const TextStyle().s(20).cl(primaryColor).w(6)),
           leading: InkWell(
               onTap: () {
                 Get.back();
@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               )),
           elevation: 0,
         ),
-        backgroundColor: const Color(0xfffcb575),
+        backgroundColor: primaryColor,
         body: ModalProgressHUD(
           progressIndicator: CircularProgressIndicator(
             color: primaryColor,
@@ -63,7 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Text(
                         "Create Account Now",
-                        style: const TextStyle().s(18).cl(Colors.black),
+                        style: const TextStyle().s(20).cl(Colors.white).w(4),
                       ),
                       const SizedBox(
                         height: 30,
@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 60),
                         decoration: BoxDecoration(
-                            color: const Color(0xffce805b).withOpacity(0.5),
+                            color: secondaryColor,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10))),
                         child: Column(children: [
@@ -285,21 +285,31 @@ class BorderTextField extends StatelessWidget {
       validator: validator,
       controller: controller,
       onChanged: onChanged,
+
       // autocorrect: true,
       decoration: InputDecoration(
-        hintText: hintText,
-        label: label,
-        contentPadding: const EdgeInsets.all(15),
-        border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-          borderSide: BorderSide(width: 2, color: logoColor),
-        ),
-        suffixIcon: suffixIcon,
-        // prefixIcon: Icon(
-        //   prefixIcon,
-        //   color: Colors.black,
-        // ),
-      ),
+          // filled: true,
+          // fillColor: Colors.white,
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.black),
+          label: label,
+          contentPadding: const EdgeInsets.all(15),
+          border: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+            borderSide: BorderSide(width: 2, color: logoColor),
+          ),
+          suffixIcon: suffixIcon,
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 2,
+                color: primaryColor,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)))
+          // prefixIcon: Icon(
+          //   prefixIcon,
+          //   color: Colors.black,
+          // ),
+          ),
     );
   }
 }

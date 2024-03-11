@@ -19,6 +19,30 @@ class Availability extends StatefulWidget {
 }
 
 class _AvailabilityState extends State<Availability> {
+  List<String> days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+
+  List<String> timeSlots = [
+    "9:00 AM - 10:00 AM",
+    "10:00 AM - 11:00 AM",
+    "11:00 AM - 12:00 PM",
+    "12:00 PM - 1:00 PM",
+    "1:00 PM - 2:00 PM",
+    "2:00 PM - 3:00 PM",
+    "3:00 PM - 4:00 PM",
+    "4:00 PM - 5:00 PM",
+    "5:00 PM - 6:00 PM"
+  ];
+
+  String selectedDay = "Monday";
+  List<bool> isSelected = List.generate(9, (index) => false);
   @override
   Widget build(BuildContext context) {
     return Consumer<SchoolRegProvider>(builder: (context, model, child) {
@@ -49,23 +73,69 @@ class _AvailabilityState extends State<Availability> {
                       const SizedBox(
                         height: 30,
                       ),
-                      DropdownButtonFormField<String>(
-                        value: model.setTimeSlot,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            model.setTimeSlot = newValue!;
-                          });
+                      // DropdownButtonFormField<String>(
+                      //   value: model.setTimeSlot,
+                      //   onChanged: (String? newValue) {
+                      //     setState(() {
+                      //       model.setTimeSlot = newValue!;
+                      //     });
+                      //   },
+                      //   items: <String>[
+                      //     '04/5/2024 on 10:50 am', // Add a default value or prompt
+                      //     '03/5/2024 on 03:50 pm',
+                      //     '06/5/2024 on 05:50 pm',
+                      //   ].map<DropdownMenuItem<String>>((String value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Text(value),
+                      //     );
+                      //   }).toList(),
+                      // ),
+                      DropdownButton<String>(
+                        value: selectedDay,
+                        onChanged: (newValue) {
+                          setState(() {});
+                          selectedDay = newValue!;
                         },
-                        items: <String>[
-                          '04/5/2024 on 10:50 am', // Add a default value or prompt
-                          '03/5/2024 on 03:50 pm',
-                          '06/5/2024 on 05:50 pm',
-                        ].map<DropdownMenuItem<String>>((String value) {
+                        items:
+                            days.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Select Available Time Slots for $selectedDay",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      ToggleButtons(
+                        isSelected: isSelected,
+                        onPressed: (int index) {
+                          setState(() {
+                            isSelected[index] = !isSelected[index];
+                          });
+                        },
+                        children: timeSlots.map((time) {
+                          return Text(time);
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          List<String> selectedSlots = [];
+                          for (int i = 0; i < isSelected.length; i++) {
+                            if (isSelected[i]) {
+                              selectedSlots.add(timeSlots[i]);
+                            }
+                          }
+                          print(
+                              "Selected time slots for $selectedDay: $selectedSlots");
+                        },
+                        child: const Text("Confirm"),
                       ),
                       const SizedBox(height: 40),
                       CustomButton(
